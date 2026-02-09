@@ -17,35 +17,36 @@ public class Enzo {
         int taskCount = 0;
 
         while (true) {
-            String input = in.nextLine();
+            try {
+                String input = in.nextLine();
 
-            if (input.equals("bye")) {
-                printGoodbye();
-                break;
+                if (input.equals("bye")) {
+                    printGoodbye();
+                    break;
 
-            } else if (input.equals("list")) {
-                handleList(tasks, taskCount);
+                } else if (input.equals("list")) {
+                    handleList(tasks, taskCount);
 
-            } else if (input.startsWith("mark ")) {
-                handleMark(input, tasks);
+                } else if (input.startsWith("mark ")) {
+                    handleMark(input, tasks);
 
-            } else if (input.startsWith("unmark ")) {
-                handleUnmark(input, tasks);
+                } else if (input.startsWith("unmark ")) {
+                    handleUnmark(input, tasks);
 
-            } else if (input.startsWith("todo ")) {
-                taskCount = handleTodo(input, tasks, taskCount);
+                } else if (input.startsWith("todo ")) {
+                    taskCount = handleTodo(input, tasks, taskCount);
 
-            } else if (input.startsWith("deadline ")) {
-                taskCount = handleDeadline(input, tasks, taskCount);
+                } else if (input.startsWith("deadline ")) {
+                    taskCount = handleDeadline(input, tasks, taskCount);
 
-            } else if (input.startsWith("event ")) {
-                taskCount = handleEvent(input, tasks, taskCount);
+                } else if (input.startsWith("event ")) {
+                    taskCount = handleEvent(input, tasks, taskCount);
 
-            } else {
-                tasks[taskCount] = new Task(input);
-                taskCount++;
-
-                System.out.println(" added: " + input);
+                } else {
+                    throw new EnzoException("Sorry, I don't understand this command");
+                }
+            } catch (EnzoException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -82,28 +83,48 @@ public class Enzo {
         System.out.println(" " + tasks[index]);
     }
 
-    private static int handleTodo(String input, Task[] tasks, int taskCount) {
-        String description = input.substring(TODO_PREFIX_LENGTH);
+    private static int handleTodo(String input, Task[] tasks, int taskCount) throws EnzoException {
+        String description = input.substring(TODO_PREFIX_LENGTH).trim();
+        if (description.isEmpty()) {
+            throw new EnzoException("Hey! A todo needs a description and cannot be left empty");
+        }
+
         tasks[taskCount++] = new Todo(description);
         printTaskAdded(tasks, taskCount);
         return taskCount;
     }
 
-    private static int handleDeadline(String input, Task[] tasks, int taskCount) {
+    private static int handleDeadline(String input, Task[] tasks, int taskCount) throws EnzoException {
+        if (!input.contains(" /by ")) {
+            throw new EnzoException("Hey! Please specify the deadline with /by");
+        }
+
         String[] parts = input.substring(DEADLINE_PREFIX_LENGTH).split(" /by ");
-        String description = parts[0];
-        String by = parts[1];
+        String description = parts[0].trim();
+        String by = parts[1].trim();
+
+        if (description.isEmpty()) {
+            throw new EnzoException("Hey! Deadlines need a description and cannot be left empty");
+        }
 
         tasks[taskCount++] = new Deadline(description, by);
         printTaskAdded(tasks, taskCount);
         return taskCount;
     }
 
-    private static int handleEvent(String input, Task[] tasks, int taskCount) {
+    private static int handleEvent(String input, Task[] tasks, int taskCount) throws EnzoException {
+        if (!input.contains(" /from ") || !input.contains(" /to ")) {
+            throw new EnzoException("Hey! Events need /from and /to details");
+        }
+
         String[] parts = input.substring(EVENT_PREFIX_LENGTH).split(" /from | /to ");
-        String description = parts[0];
-        String from = parts[1];
-        String to = parts[2];
+        String description = parts[0].trim();
+        String from = parts[1].trim();
+        String to = parts[2].trim();
+
+        if (description.isEmpty()) {
+            throw new EnzoException("Hey! Events need a description and cannot be left empty");
+        }
 
         tasks[taskCount++] = new Event(description, from, to);
         printTaskAdded(tasks, taskCount);
