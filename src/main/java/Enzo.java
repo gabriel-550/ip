@@ -27,40 +27,19 @@ public class Enzo {
                 handleList(tasks, taskCount);
 
             } else if (input.startsWith("mark ")) {
-                int index = Integer.parseInt(input.substring(MARK_PREFIX_LENGTH)) - DISPLAYED_INDEX_OFFSET;
-                tasks[index].mark();
-
-                System.out.println("Nice! I've marked this task as done:");
-                System.out.println(" " + tasks[index]);
+                handleMark(input, tasks);
 
             } else if (input.startsWith("unmark ")) {
-                int index = Integer.parseInt(input.substring(UNMARK_PREFIX_LENGTH)) - DISPLAYED_INDEX_OFFSET;
-                tasks[index].unmark();
-
-                System.out.println("OK, I've marked this task as not done yet:");
-                System.out.println(" " + tasks[index]);
+                handleUnmark(input, tasks);
 
             } else if (input.startsWith("todo ")) {
-                String description = input.substring(TODO_PREFIX_LENGTH);
-                tasks[taskCount++] = new Todo(description);
-                printTaskAdded(tasks, taskCount);
+                taskCount = handleTodo(input, tasks, taskCount);
 
             } else if (input.startsWith("deadline ")) {
-                String[] parts = input.substring(DEADLINE_PREFIX_LENGTH).split(" /by ");
-                String description = parts[0];
-                String by = parts[1];
-
-                tasks[taskCount++] = new Deadline(description, by);
-                printTaskAdded(tasks, taskCount);
+                taskCount = handleDeadline(input, tasks, taskCount);
 
             } else if (input.startsWith("event ")) {
-                String[] parts = input.substring(EVENT_PREFIX_LENGTH).split(" /from | /to ");
-                String description = parts[0];
-                String from = parts[1];
-                String to = parts[2];
-
-                tasks[taskCount++] = new Event(description, from, to);
-                printTaskAdded(tasks, taskCount);
+                taskCount = handleEvent(input, tasks, taskCount);
 
             } else {
                 tasks[taskCount] = new Task(input);
@@ -85,6 +64,50 @@ public class Enzo {
         for (int i = 0; i < taskCount; i++) {
             System.out.println(" " + (i + 1) + "." + tasks[i]);
         }
+    }
+
+    private static void handleMark(String input, Task[] tasks) {
+        int index = Integer.parseInt(input.substring(MARK_PREFIX_LENGTH)) - DISPLAYED_INDEX_OFFSET;
+        tasks[index].mark();
+
+        System.out.println("Nice! I've marked this task as done:");
+        System.out.println(" " + tasks[index]);
+    }
+
+    private static void handleUnmark(String input, Task[] tasks) {
+        int index = Integer.parseInt(input.substring(UNMARK_PREFIX_LENGTH)) - DISPLAYED_INDEX_OFFSET;
+        tasks[index].unmark();
+
+        System.out.println("OK, I've marked this task as not done yet:");
+        System.out.println(" " + tasks[index]);
+    }
+
+    private static int handleTodo(String input, Task[] tasks, int taskCount) {
+        String description = input.substring(TODO_PREFIX_LENGTH);
+        tasks[taskCount++] = new Todo(description);
+        printTaskAdded(tasks, taskCount);
+        return taskCount;
+    }
+
+    private static int handleDeadline(String input, Task[] tasks, int taskCount) {
+        String[] parts = input.substring(DEADLINE_PREFIX_LENGTH).split(" /by ");
+        String description = parts[0];
+        String by = parts[1];
+
+        tasks[taskCount++] = new Deadline(description, by);
+        printTaskAdded(tasks, taskCount);
+        return taskCount;
+    }
+
+    private static int handleEvent(String input, Task[] tasks, int taskCount) {
+        String[] parts = input.substring(EVENT_PREFIX_LENGTH).split(" /from | /to ");
+        String description = parts[0];
+        String from = parts[1];
+        String to = parts[2];
+
+        tasks[taskCount++] = new Event(description, from, to);
+        printTaskAdded(tasks, taskCount);
+        return taskCount;
     }
 
     private static void printTaskAdded(Task[] tasks, int taskCount) {
