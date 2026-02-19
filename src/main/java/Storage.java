@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Storage {
-    private String filePath;
+    private final String filePath;
 
     public Storage(String filePath) {
         this.filePath = filePath;
@@ -17,7 +17,7 @@ public class Storage {
 
         File directory = file.getParentFile();
         if (directory != null && !directory.exists()) {
-            directory.mkdirs();
+            throw new EnzoException("Failed to create data directory");
         }
 
         if (!file.exists()) {
@@ -41,7 +41,7 @@ public class Storage {
         return tasks;
     }
 
-    private Task parseTask(String line) throws EnzoException {
+    private Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
             return null;
@@ -82,7 +82,7 @@ public class Storage {
             File file = new File(filePath);
             File directory = file.getParentFile();
             if (directory != null && !directory.exists()) {
-                directory.mkdirs();
+                throw new EnzoException("Failed to create data directory");
             }
 
             FileWriter writer = new FileWriter(file);
