@@ -75,7 +75,7 @@ public class Enzo {
     }
 
     private static void printGoodbye() {
-        System.out.println(" Bye. I’ll be right here when you need me again!");
+        System.out.println(" Bye. I'll be right here when you need me again!");
     }
 
     private static void handleList(ArrayList<Task> tasks) {

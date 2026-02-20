@@ -17,7 +17,7 @@ public class Storage {
 
         File directory = file.getParentFile();
         if (directory != null && !directory.exists()) {
-            throw new EnzoException("Failed to create data directory");
+            directory.mkdirs();
         }
 
         if (!file.exists()) {
@@ -82,7 +82,7 @@ public class Storage {
             File file = new File(filePath);
             File directory = file.getParentFile();
             if (directory != null && !directory.exists()) {
-                throw new EnzoException("Failed to create data directory");
+                directory.mkdirs();
             }
 
             FileWriter writer = new FileWriter(file);
