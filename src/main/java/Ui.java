@@ -44,4 +44,8 @@ public class Ui {
         System.out.println(" " + tasks.get(tasks.size() - 1));
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
+
+    public void showDivider() {
+        System.out.println("____________________________________________________________");
+    }
 }
