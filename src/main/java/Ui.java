@@ -39,6 +39,17 @@ public class Ui {
         System.out.println("Now you have " + remainingCount + " tasks in the list.");
     }
 
+    public void showFound(TaskList tasks) {
+        if (tasks.size() == 0) {
+            System.out.println("No matching tasks found.");
+            return;
+        }
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(" " + (i + 1) + "." + tasks.get(i));
+        }
+    }
+
     public void showTaskAdded(TaskList tasks) {
         System.out.println("Got it. I've added this task:");
         System.out.println(" " + tasks.get(tasks.size() - 1));

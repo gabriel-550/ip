@@ -23,6 +23,16 @@ public class TaskList {
         return tasks.get(index);
     }
 
+    public TaskList find(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.description.contains(keyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return new TaskList(matchingTasks);
+    }
+
     public int size() {
         return tasks.size();
     }

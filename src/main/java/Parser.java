@@ -6,6 +6,7 @@ public class Parser {
     public static final int DEADLINE_PREFIX_LENGTH = 9;
     public static final int EVENT_PREFIX_LENGTH = 6;
     public static final int DELETE_PREFIX_LENGTH = 7;
+    public static final int FIND_PREFIX_LENGTH = 5;
 
     public static int parseMarkIndex(String input, TaskList tasks) throws EnzoException {
         if (input.length() <= MARK_PREFIX_LENGTH) {
@@ -64,6 +65,17 @@ public class Parser {
             throw new EnzoException("Hey! Events need a description and cannot be left empty");
         }
         return new Event(description, from, to);
+    }
+
+    public static String parseFind(String input) throws EnzoException {
+        if (input.length() <= FIND_PREFIX_LENGTH) {
+            throw new EnzoException("Hey! Please specify a keyword to search for.");
+        }
+        String keyword = input.substring(FIND_PREFIX_LENGTH).trim();
+        if (keyword.isEmpty()) {
+            throw new EnzoException("Hey! Please specify a keyword to search for.");
+        }
+        return keyword;
     }
 
     public static String extractCommand(String input) {

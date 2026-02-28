@@ -52,6 +52,10 @@ public class Enzo {
                     ui.showDeleted(removed, tasks.size());
                     storage.save(tasks.getTasks());
                     break;
+                case "find":
+                    String keyword = Parser.parseFind(input);
+                    ui.showFound(tasks.find(keyword));
+                    break;
                 case "todo":
                     tasks.add(Parser.parseTodo(input));
                     ui.showTaskAdded(tasks);
