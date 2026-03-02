@@ -1,10 +1,20 @@
 import java.util.Scanner;
 
+/**
+ * Represents the main class of the Enzo application.
+ * Handles initialization of core components and runs the main command loop.
+ */
 public class Enzo {
     private final Storage storage;
     private final Ui ui;
     private TaskList tasks;
 
+    /**
+     * Constructs an Enzo instance, initializing UI, storage, and task list.
+     * If loading from file fails, starts with an empty task list.
+     *
+     * @param filePath Path to the file used for persistent task storage.
+     */
     public Enzo(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -16,6 +26,10 @@ public class Enzo {
         }
     }
 
+    /**
+     * Runs the main command loop, reading and processing user input
+     * until the user exits the application.
+     */
     public void run() {
         Scanner in = new Scanner(System.in);
         ui.showWelcome();
@@ -81,6 +95,12 @@ public class Enzo {
         }
     }
 
+    /**
+     * Entry point of the Enzo application.
+     * Creates an Enzo instance with a data file path and starts the application.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
         new Enzo("./data/enzo.txt").run();
     }
