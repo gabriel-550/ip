@@ -152,14 +152,15 @@ Tasks are saved automatically to `./data/enzo.txt` after every change. No manual
 The file and folder are created automatically on first run.
 
 ## Command Summary
-| Command    | Format                                  |
-|------------|-----------------------------------------|
-| `todo`     | `todo DESCRIPTION`                      |
-| `deadline` | `deadline DESCRIPTION /by DATE`         |
-| `event`    | `event DESCRIPTION /from START /to END` |
-| `mark`     | `mark INDEX`                            |
-| `unmark`   | `unmark INDEX`                          |
-| `delete`   | `delete INDEX`                          |
-| `list`     | `list`                                  |
-| `find`     | `find KEYWORD`                          |
-| `bye`      | `bye`                                   |
+
+| Command    | Format                                      |
+| ---------- | ------------------------------------------- |
+| `todo`     | `todo DESCRIPTION`                          |
+| `deadline` | `deadline DESCRIPTION /by DATE`             |
+| `event`    | `event DESCRIPTION /from START /to END`     |
+| `mark`     | `mark INDEX`                                |
+| `unmark`   | `unmark INDEX`                              |
+| `delete`   | `delete INDEX`                              |
+| `list`     | `list`                                      |
+| `find`     | `find KEYWORD`                              |
+| `bye`      | `bye`                                       |
