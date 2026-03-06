@@ -84,14 +84,20 @@ public class Parser {
      * @throws EnzoException If the /by label is missing or the description is empty.
      */
     public static Deadline parseDeadline(String input) throws EnzoException {
-        if (!input.contains(" /by ")) {
+        if (!input.contains(" /by")) {
             throw new EnzoException("Hey! Please specify the deadline with /by");
         }
-        String[] parts = input.substring(DEADLINE_PREFIX_LENGTH).split(" /by ");
+        String[] parts = input.substring(DEADLINE_PREFIX_LENGTH).split(" /by");
+        if (parts.length < 2) {
+            throw new EnzoException("Hey! Please specify a deadline date after /by");
+        }
         String description = parts[0].trim();
         String by = parts[1].trim();
         if (description.isEmpty()) {
             throw new EnzoException("Hey! Deadlines need a description and cannot be left empty");
+        }
+        if (by.isEmpty()) {
+            throw new EnzoException("Hey! Please specify a deadline date after /by");
         }
         return new Deadline(description, by);
     }
@@ -105,15 +111,24 @@ public class Parser {
      * @throws EnzoException If /from or /to labels are missing, or the description is empty.
      */
     public static Event parseEvent(String input) throws EnzoException {
-        if (!input.contains(" /from ") || !input.contains(" /to ")) {
+        if (!input.contains(" /from") || !input.contains(" /to")) {
             throw new EnzoException("Hey! Events need /from and /to details");
         }
-        String[] parts = input.substring(EVENT_PREFIX_LENGTH).split(" /from | /to ");
+        String[] parts = input.substring(EVENT_PREFIX_LENGTH).split(" /from| /to");
+        if (parts.length < 3) {
+            throw new EnzoException("Hey! Please specify both /from and /to times");
+        }
         String description = parts[0].trim();
         String from = parts[1].trim();
         String to = parts[2].trim();
         if (description.isEmpty()) {
             throw new EnzoException("Hey! Events need a description and cannot be left empty");
+        }
+        if (from.isEmpty()) {
+            throw new EnzoException("Hey! Please specify a start time after /from");
+        }
+        if (to.isEmpty()) {
+            throw new EnzoException("Hey! Please specify an end time after /to");
         }
         return new Event(description, from, to);
     }
